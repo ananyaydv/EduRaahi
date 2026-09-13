@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EduRaahi — AI Learning Gaps, Study Plans &amp; Career Guidance</title>
+<meta name="description" content="EduRaahi diagnoses learning gaps, builds an adaptive study plan, and gives career guidance in your own language." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Karla:wght@400;500;700&family=Noto+Serif+Devanagari:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-lang="en">
+
+<header class="topbar">
+  <div class="page">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-word" data-i18n="brand">EduRaahi</span></div>
+      <nav class="mainnav" aria-label="Main">
+        <button type="button" data-view="home" data-i18n="navHome" aria-current="true">Home</button>
+        <button type="button" data-view="gap" data-i18n="navGap">Find My Gaps</button>
+        <button type="button" data-view="plan" data-i18n="navPlan">Study Plan</button>
+        <button type="button" data-view="career" data-i18n="navCareer">Career Guidance</button>
+        <button type="button" data-view="dashboard" data-i18n="navDash">Progress</button>
+      </nav>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" id="langToggleEn" aria-pressed="true">EN</button>
+        <button type="button" id="langToggleHi" aria-pressed="false">हि</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ============================= HOME ============================= -->
+  <section id="view-home" class="view active">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker" data-i18n="heroKicker">AI in Education &amp; Skilling</p>
+        <h1 class="hero-title" data-i18n="heroTitle">Every learner's gap is different. So should be their path.</h1>
+        <p class="hero-body" data-i18n="heroBody">EduRaahi diagnoses exactly where you're stuck, builds a study plan around your pace, and answers what you should become in the language you think in.</p>
+        <button type="button" class="btn" id="heroCtaBtn" data-i18n="heroCta">Take the 2-minute gap check</button>
+      </div>
+      <div class="stat-strip">
+        <div class="stat-row"><span class="stat-num" data-i18n="heroStat1">3</span><span class="stat-label" data-i18n="heroStat1Label">subjects covered</span></div>
+        <div class="stat-row"><span class="stat-num" data-i18n="heroStat2">2</span><span class="stat-label" data-i18n="heroStat2Label">languages</span></div>
+        <div class="stat-row"><span class="stat-num" data-i18n="heroStat3">7-day</span><span class="stat-label" data-i18n="heroStat3Label">adaptive plan</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= GAP CHECK ============================= -->
+  <section id="view-gap" class="view">
+    <h2 class="section-title" data-i18n="gapTitle">Find My Gaps</h2>
+    <p class="section-sub" data-i18n="gapSub">Pick a subject. Answer honestly — this isn't graded, it's a mirror.</p>
+
+    <div id="subjectPickStep">
+      <div class="subject-grid" id="subjectGrid"></div>
+      <button type="button" class="btn" id="startQuizBtn" disabled data-i18n="startQuiz">Start diagnostic</button>
+    </div>
+
+    <div id="quizStep" class="quiz-shell" style="display:none;">
+      <div class="quiz-progress" id="quizProgress"></div>
+      <span class="quiz-topic-tag" id="quizTopicTag"></span>
+      <p class="quiz-question" id="quizQuestionText"></p>
+      <ul class="quiz-options" id="quizOptions"></ul>
+      <p class="feedback-line" id="quizFeedback"></p>
+      <button type="button" class="btn" id="quizNextBtn" style="display:none;"></button>
+    </div>
+
+    <div id="resultsStep" class="results-shell" style="display:none;">
+      <h2 class="section-title" data-i18n="resultsTitle">Here's where you stand</h2>
+      <div class="score-line">
+        <span class="score-num" id="resultScoreNum">0%</span>
+        <span data-i18n="overallScore">Overall score</span>
+      </div>
+      <div class="topic-breakdown">
+        <div>
+          <h3 data-i18n="strongTopics">You've got this</h3>
+          <ul class="topic-pill-list" id="strongTopicList"></ul>
+        </div>
+        <div>
+          <h3 data-i18n="weakTopics">Needs work</h3>
+          <ul class="topic-pill-list" id="weakTopicList"></ul>
+        </div>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button type="button" class="btn" id="buildPlanBtn" data-i18n="buildPlanCta">Build my study plan from this</button>
+        <button type="button" class="btn secondary" id="retakeBtn" data-i18n="startQuiz">Start diagnostic</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= STUDY PLAN ============================= -->
+  <section id="view-plan" class="view">
+    <h2 class="section-title" data-i18n="planTitle">Your 7-Day Study Plan</h2>
+    <p class="section-sub" data-i18n="planSub">Built from your weak topics. Choose a pace that fits your week.</p>
+
+    <div id="planEmptyState" class="empty-note">
+      <p data-i18n="noGapsYet">Take the gap check first so your plan is built on real data, not guesses.</p>
+      <button type="button" class="btn small" id="goToGapBtn" data-i18n="goToGap">Go to Find My Gaps</button>
+    </div>
+
+    <div id="planBuilder" style="display:none;">
+      <div class="pace-picker">
+        <button type="button" data-pace="relaxed" aria-pressed="false" data-i18n="paceRelaxed">Relaxed</button>
+        <button type="button" data-pace="standard" aria-pressed="true" data-i18n="paceStandard">Standard</button>
+        <button type="button" data-pace="intensive" aria-pressed="false" data-i18n="paceIntensive">Intensive</button>
+      </div>
+      <button type="button" class="btn small" id="generatePlanBtn" style="margin-bottom:24px;" data-i18n="generatePlan">Generate plan</button>
+      <div class="plan-table" id="planTable"></div>
+    </div>
+  </section>
+
+  <!-- ============================= CAREER GUIDANCE ============================= -->
+  <section id="view-career" class="view">
+    <h2 class="section-title" data-i18n="careerTitle">Career Guidance</h2>
+    <p class="section-sub" data-i18n="careerSub">Pick what pulls you in. We'll match careers, the path to get there, and explain it in your language.</p>
+
+    <div class="interest-chips" id="interestChips"></div>
+    <p id="careerPickNote" style="min-height:1.4em; font-weight:600;"></p>
+    <button type="button" class="btn" id="seeMatchesBtn" data-i18n="seeMatches">See my matches</button>
+
+    <div id="careerResultsWrap" style="display:none; margin-top:36px;">
+      <h3 style="font-family:var(--serif); font-size:1.2rem;" data-i18n="matchTitle">Careers that fit your interests</h3>
+      <div class="career-grid" id="careerGrid" style="margin-top:16px;"></div>
+    </div>
+  </section>
+
+  <!-- ============================= DASHBOARD ============================= -->
+  <section id="view-dashboard" class="view">
+    <h2 class="section-title" data-i18n="dashTitle">Your Progress</h2>
+    <p class="section-sub" data-i18n="dashSub">Every attempt, tracked. This is your own record, kept on this device.</p>
+
+    <div class="dash-summary">
+      <div class="dash-metric"><span class="dm-num" id="dashAttemptCount">0</span><span class="dm-label" data-i18n="attempts">Attempts</span></div>
+      <div class="dash-metric"><span class="dm-num" id="dashBest">—</span><span class="dm-label" data-i18n="bestScore">Best score</span></div>
+      <div class="dash-metric"><span class="dm-num" id="dashLatest">—</span><span class="dm-label" data-i18n="latestScore">Latest</span></div>
+    </div>
+
+    <p id="noAttemptsNote" class="empty-note" data-i18n="noAttempts" style="display:none;">No attempts yet.</p>
+    <div id="attemptList"></div>
+
+    <button type="button" class="btn secondary small" id="resetDataBtn" style="margin-top:24px;" data-i18n="resetData">Clear my data</button>
+  </section>
+
+</main>
+
+<footer class="sitefoot">
+  <div class="page">
+    <p data-i18n="footerNote">All data stays on your device — nothing is uploaded anywhere.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
